@@ -1,0 +1,23 @@
+{% extends "blog/base.html" %}
+
+{% block title %}My Blog{% endblock %}
+
+{% block content %}
+  <h1>My Blog</h1>
+  {% for post in posts %}
+    <h2>
+      <a href="{{ post.get_absolute_url }}">
+        {{ post.title }}
+      </a>
+    </h2>
+    <p class="date">
+      Published {{ post.publish }} by {{ post.author }}
+    </p>
+{#      truncatewords用来缩短内容限制在一定的字数内，#}
+{#      linebreaks用来转换内容中的换行符为HTML的换行符。#}
+{#      只要你喜欢你可以连接许多模板标签（tempalte filters），每一个都会应用到上个输出生成的结果上。#}
+    {{ post.body|truncatewords:30|linebreaks }}
+  {% endfor %}
+{#    旧的分页器{% include "pagination.html" with page=posts %}  #}
+    {% include "pagination.html" with page=page_obj %}
+{% endblock %}

@@ -2,6 +2,14 @@ from django.db import models
 
 from django.utils import timezone
 from django.contrib.auth.models import User
+# from django.core.urlresolvers import reverse
+from django.urls import reverse
+
+
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedManager,
+                    self).get_queryset().filter(status='published')
 
 
 class Post(models.Model):
@@ -40,6 +48,17 @@ class Post(models.Model):
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICES,
                               default='draft')
+    # 创建一个管理器
+    objects = models.Manager()  # The default manager.
+    published = PublishedManager()  # Our custom manager.
+
+    # Django的惯例是给模型（model）添加get_absolute_url()方法用来返回一个对象的标准URL
+    def get_absolute_url(self):
+        return reverse('blog:post_detail',
+                       args=[self.publish.year,
+                             self.publish.strftime('%m'),
+                             self.publish.strftime('%d'),
+                             self.slug])
 
     class Meta:
         """
@@ -53,4 +72,3 @@ class Post(models.Model):
             Python3中所有的strings都使用unicode，因此我们只使用str()方法。unicode()方法已经废弃
         """
         return self.title
-

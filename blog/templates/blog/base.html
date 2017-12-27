@@ -1,0 +1,21 @@
+{% load staticfiles %}
+{#告诉Django去加载django.contrib.staticfiles应用提供的staticfiles#}
+<!DOCTYPE html>
+<html>
+<head>
+{#    告诉Django我们想在这个区域中定义一个区块（block）。#}
+{#    继承这个模板（template）的其他模板（templates）可以使用自定义的内容来填充区块（block）#}
+  <title>{% block title %}{% endblock %}</title>
+  <link href="{% static "css/blog.css" %}" rel="stylesheet">
+</head>
+<body>
+  <div id="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+  <div id="sidebar">
+    <h2>My blog</h2>
+      <p>This is my blog.</p>
+  </div>
+</body>
+</html>
