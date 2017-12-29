@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',  # 这是一个消息框架
     'django.contrib.staticfiles',  # 这是一个用来管理静态文件的框架
     'blog',  # 添加自己写的app
+    'taggit',  # 标签插件
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mysite.urls'  # 指明你的应用定义的主URL模式存放在哪个Python模块中
+
+
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_HOST_USER = 'yangkai_test@foxmail.com'
+EMAIL_HOST_PASSWORD = 'yangkai123'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = True
+
 
 TEMPLATES = [
     {

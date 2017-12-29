@@ -1,5 +1,5 @@
 from django.db import models
-
+from taggit.managers import TaggableManager
 from django.utils import timezone
 from django.contrib.auth.models import User
 # from django.core.urlresolvers import reverse
@@ -51,6 +51,7 @@ class Post(models.Model):
     # 创建一个管理器
     objects = models.Manager()  # The default manager.
     published = PublishedManager()  # Our custom manager.
+    tags = TaggableManager()
 
     # Django的惯例是给模型（model）添加get_absolute_url()方法用来返回一个对象的标准URL
     def get_absolute_url(self):
@@ -72,3 +73,19 @@ class Post(models.Model):
             Python3中所有的strings都使用unicode，因此我们只使用str()方法。unicode()方法已经废弃
         """
         return self.title
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    name = models.CharField(max_length=80)
+    email = models.EmailField()
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)  # active布尔字段用来手动禁用那些不合适的评论
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return 'Comment by {} on {}'.format(self.name, self.post)
