@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 """
 Django settings for mysite project.
 
@@ -39,7 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',  # 这是一个用来管理静态文件的框架
     'blog',  # 添加自己写的app
     'taggit',  # 标签插件
+    # 'django.contrib.sites',  # 站点地图
+    # 'django.contrib.sitemaps'  # 站点地图
+    'haystack',  # 搜索引擎
 ]
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://127.0.0.1:8983/solr/blog'
+    },
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,7 +65,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mysite.urls'  # 指明你的应用定义的主URL模式存放在哪个Python模块中
-
+SITE_ID = 1  # 为站点ID定义一个新的设置
 
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_HOST_USER = 'yangkai_test@foxmail.com'
